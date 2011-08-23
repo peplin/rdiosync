@@ -19,7 +19,7 @@ whether or not they existed on disk.
 
 The tool uses the [mutagen][] library to load metadata from your audio files. It
 supports many formats, but for the moment this tool only scans for MP3 and FLAC.
-If you have music in anotehr format supported by mutagen, it's a simple as
+If you have music in another format supported by mutagen, it's a simple as
 adding it to the scan filter.
 
 [mutagen]: (http://pypi.python.org/pypi/mutagen/1.12)
@@ -50,9 +50,23 @@ You can always check the current configuration, too:
 
     $ python -m rdiosync.sync --print-config
 
+
 ## Authentication
 
 Now you must get authenticate your client for your Rdio user account using
 OAuth. Just try to run a sync:
 
     $ python -m rdiosync.sync
+
+## Sync
+
+Now that the configuration and authentication is squared away (and stored in the
+'config' file in your current directory) you can kick of the sync process:
+
+    $ python -m rdiosync.sync
+
+The tool will spit out lots of information what what it's syncing, what it's
+not, and why along the way. Your collection is indexed in the 'collection' file
+that's created, so you don't have to worry about calling the Rdio API thousands
+of times every time you sync. It will keep track of which albums have been
+previously matched and uploaded, and not repeat the process.
