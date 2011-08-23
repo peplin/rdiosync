@@ -1,0 +1,2 @@
+-e git+ssh://git@github.com/kreeger/python-rdio.git#egg=python-rdio
+mutagen

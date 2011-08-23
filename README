@@ -1,0 +1,4 @@
+rdiosync
+=================
+
+    $ python -m rdiosync.sync
