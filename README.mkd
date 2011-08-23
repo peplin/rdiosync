@@ -1,0 +1,58 @@
+rdiosync
+=================
+
+## About
+
+Rdio currently only supports synchronizing music collections if you keep your
+tracks in iTunes or Windows Media Payer. If you keep your music organized
+manually, this script will allow you to benefit as well.
+
+It scans your local collection and uses the Rdio API to match artists & albums,
+and add each track found to your collection.
+
+### Assumptions
+
+This tool is currently focused on those who collect primarily full albums, not
+individual tracks. When scanning, if it encounters a track from an album, all of
+the tracks from that album are added to your Rdio collection regardless of
+whether or not they existed on disk.
+
+The tool uses the [mutagen][] library to load metadata from your audio files. It
+supports many formats, but for the moment this tool only scans for MP3 and FLAC.
+If you have music in anotehr format supported by mutagen, it's a simple as
+adding it to the scan filter.
+
+[mutagen]: (http://pypi.python.org/pypi/mutagen/1.12)
+
+## Requirements
+
+Install all of the dependencies with pip:
+
+    $ pip install pip-requirements.txt
+
+This will install:
+
+* [mutagen][]
+* kreeger's [python-rdio](https://github.com/kreeger/python-rdio)
+
+## Configuration
+
+Get an Rdio API key from http://developer.rdio.com, then add your authentication
+information to the rdiosync config:
+
+    $ python -m rdiosync.sync --api-key <YOUR_KEY> --api-secret <YOUR_SECRET>
+
+Next, set the root path to your music collection:
+
+    $ python -m rdiosync.sync --music-path <MUSIC_PATH>
+
+You can always check the current configuration, too:
+
+    $ python -m rdiosync.sync --print-config
+
+## Authentication
+
+Now you must get authenticate your client for your Rdio user account using
+OAuth. Just try to run a sync:
+
+    $ python -m rdiosync.sync
