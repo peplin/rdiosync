@@ -11,11 +11,17 @@ def get_api(config):
     if config['token'] is None:
         api = rdio.Api(config['api_key'], config['api_secret'])
         token_dict = api.get_token_and_login_url()
-        print 'Authorize this application at: %s?oauth_token=%s' % (
+        if not token_dict:
+            print "OAuth isn't working right now"
+            return 
+        print "Authorize this application at: %s?oauth_token=%s" % (
             token_dict['login_url'], token_dict['oauth_token'])
         oauth_verifier = raw_input('Enter the PIN / oAuth verifier: ').strip()
         auth_dict = api.authorize_with_verifier(oauth_verifier)
-        print auth_dict
+        if not auth_dict:
+            print "OAuth isn't working right now"
+            config['token'] = auth_dict['token']
+            config['token_key'] = auth_dict['token_key']
     else:
         api = rdio.Api(config['api_key'], config['api_secret'],
                 config['token'], config['token_key'])
@@ -42,6 +48,9 @@ def update_artist_key(api, artist_name, artist_info):
 def sync(config):
     collection = Collection()
     api = get_api(config)
+    if not api:
+        print "Couldn't connect or authorize with the Rdio API"
+        return
 
     collection.load_albums()
 
@@ -121,11 +130,13 @@ def run():
     if not config['api_key'] or not config['api_secret']:
         print "You must set your API key and secret"
         parser.print_help()
-    elif not config['music-path']:
+    elif not config['music_path']:
         print "You must set the path to your music"
         parser.print_help()
     else:
         sync(config)
+
+    config.save()
 
 if __name__ == '__main__':
     run()
