@@ -21,8 +21,9 @@ class Collection(PersistentDict):
     #   }
     # }
 
-    def __init__(self):
+    def __init__(self, config):
         super(Collection, self).__init__("collection")
+        self.config = config
 
     def get_artist(self, artist):
         return self.collection.setdefault(artist, {})
@@ -34,10 +35,10 @@ class Collection(PersistentDict):
 
     def load_albums(self):
         count = 0
-        for root, directories, files in os.walk(MUSIC_DIRECTORY):
+        for root, directories, files in os.walk(self.config['music_path']):
             for name in files:
                 count += 1
-                full_path = join(root, name)
+                full_path = os.path.join(root, name)
                 if name.endswith("flac") or name.endswith("mp3"):
                     try:
                         audio = mutagen.File(full_path, easy=True)
@@ -54,4 +55,3 @@ class Collection(PersistentDict):
                     print "Processed %s so far..." % count
                     self.save()
         self.save()
-

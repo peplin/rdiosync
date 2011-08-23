@@ -1,6 +1,12 @@
 rdiosync
 =================
 
+## Dependencies
+
+Install all of the dependencies with pip:
+
+    $ pip install pip-requirements
+
 ## Configuration
 
 Get an Rdio API key from http://developer.rdio.com, then add your authentication

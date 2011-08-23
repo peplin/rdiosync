@@ -17,11 +17,13 @@ def get_api(config):
         print "Authorize this application at: %s?oauth_token=%s" % (
             token_dict['login_url'], token_dict['oauth_token'])
         oauth_verifier = raw_input('Enter the PIN / oAuth verifier: ').strip()
-        auth_dict = api.authorize_with_verifier(oauth_verifier)
+        auth_dict = api.authorize_with_verifier(oauth_verifier, token_dict)
         if not auth_dict:
             print "OAuth isn't working right now"
-            config['token'] = auth_dict['token']
-            config['token_key'] = auth_dict['token_key']
+            return
+        config['token'] = auth_dict['oauth_token']
+        config['token_key'] = auth_dict['oauth_token_secret']
+        config.save()
     else:
         api = rdio.Api(config['api_key'], config['api_secret'],
                 config['token'], config['token_key'])
@@ -46,7 +48,7 @@ def update_artist_key(api, artist_name, artist_info):
 # Mark in database that it was synced
 
 def sync(config):
-    collection = Collection()
+    collection = Collection(config)
     api = get_api(config)
     if not api:
         print "Couldn't connect or authorize with the Rdio API"
