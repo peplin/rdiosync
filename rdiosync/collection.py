@@ -26,7 +26,7 @@ class Collection(PersistentDict):
         self.config = config
 
     def get_artist(self, artist):
-        return self.collection.setdefault(artist, {})
+        return self.setdefault(artist, {})
 
     def add_album(self, artist, album):
         artist = self.get_artist(artist)
@@ -42,7 +42,7 @@ class Collection(PersistentDict):
                 if name.endswith("flac") or name.endswith("mp3"):
                     try:
                         audio = mutagen.File(full_path, easy=True)
-                    except EOFError, e:
+                    except Exception as e:
                         print "Couldn't open %s: %s" % (full_path, e)
                     else:
                         if 'artist' not in audio or 'album' not in audio:
