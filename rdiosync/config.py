@@ -20,6 +20,9 @@ class PersistentDict(object):
     def __setitem__(self, key, value):
         self.dict.__setitem__(key, value)
 
+    def setdefault(self, key, default=None):
+        return self.dict.setdefault(key, default)
+
     def items(self):
         return self.dict.items()
 

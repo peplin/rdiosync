@@ -32,11 +32,15 @@ def get_api(config):
 
 def update_artist_key(api, artist_name, artist_info):
     if 'key' not in artist_info and not artist_info.get('missing', False):
-        results = api.search(artist_name.encode("utf-8"), "Artist").results
-        if len(results) > 0 and isinstance(results[0], rdio.rdio.RdioArtist):
-            artist_info['key'] = results[0].key
+        try:
+            results = api.search(artist_name.encode("utf-8"), ["Artist"]).results
+        except Exception as e:
+            print "Error searching for artist %s: %s" % (artist_name, e)
         else:
-            artist_info['missing'] = True
+            if len(results) > 0 and isinstance(results[0], rdio.rdio.RdioArtist):
+                artist_info['key'] = results[0].key
+            else:
+                artist_info['missing'] = True
 
 
 # Recurse over all files

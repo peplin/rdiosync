@@ -4,7 +4,7 @@ rdiosync
 ## About
 
 Rdio currently only supports synchronizing music collections if you keep your
-tracks in iTunes or Windows Media Payer. If you keep your music organized
+tracks in iTunes or Windows Media Player. If you keep your music organized
 manually, this script will allow you to benefit as well.
 
 It scans your local collection and uses the Rdio API to match artists & albums,
@@ -28,7 +28,7 @@ adding it to the scan filter.
 
 Install all of the dependencies with pip:
 
-    $ pip install pip-requirements.txt
+    $ pip install -r pip-requirements.txt
 
 This will install:
 
